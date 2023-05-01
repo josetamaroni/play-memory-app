@@ -3,37 +3,21 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import Cards from './Cards';
 
-// const cards = [
-//   "😎",
-//   "😂",
-//   "😱",
-//   "😍",
-//   "🥶",
-//   "🤩",
-//   //"😡"
-// ]
 const cards = [
-  "👀 Eyes",
-  "👃🏻 Nose",
-  // "👄 Mouth",
-  // "👂🏻 Ears",
-  // "🦷 Teeth",
-  // "👤 Head",
-  // "😡"
+  ["👀 Eyes","👃🏻 Nose"],
+  ["👀 Eyes","👃🏻 Nose","👄 Mouth"],
+  ["👀 Eyes","👃🏻 Nose","👄 Mouth","👂🏻 Ears"],
+  ["👀 Eyes","👃🏻 Nose","👄 Mouth","👂🏻 Ears","🦷 Teeth"],
+  ["👀 Eyes","👃🏻 Nose","👄 Mouth","👂🏻 Ears","🦷 Teeth","👤 Head"],
+  ["👀 Eyes","👃🏻 Nose","👄 Mouth","👂🏻 Ears","🦷 Teeth","👤 Head","😡 Angry"],
+  ["👀 Eyes","👃🏻 Nose","👄 Mouth","👂🏻 Ears","🦷 Teeth","👤 Head","😡 Angry","😀 Smile"]
 ]
-const cards2 = [
-  "👀 Eyes",
-  "👃🏻 Nose",
-  "👄 Mouth",
-  // "👂🏻 Ears",
-  // "🦷 Teeth",
-  // "👤 Head",
-  // "😡"
-]
+
 // npx expo start
 export default function App() {
 
-  const [board,setBoard] = useState(()=> shuffle([...cards,...cards]));
+  const [level,setLevel] = useState(0);
+  const [board,setBoard] = useState(()=> shuffle([...cards[level],...cards[level]]));
   const [selectedCards,setSelectedCards] = useState([]);
   const [matchedCards,setMatchedCards] = useState([]);
   const [score,setScore] = useState(0);
@@ -48,7 +32,6 @@ export default function App() {
       return () => clearTimeout(timeoutId);
     }
   }, [selectedCards])
-  
 
   const handleTapCard = (index) => {
     if( selectedCards.length >= 2 || selectedCards.includes(index)) return; 
@@ -57,23 +40,37 @@ export default function App() {
   }
 
   const didPlayerWin = () => matchedCards.length === board.length;
+
   const resetGame = () => {
-    setMatchedCards([])
-    setSelectedCards([])
-    setScore(0)
-    setBoard(shuffle([...cards,...cards]))
+    setMatchedCards([]);
+    setSelectedCards([]);
+    setScore(0);
+    setLevel(0);
+    setBoard(shuffle([...cards[0],...cards[0]]));
   }
   const nextLevel = () => {
-    setMatchedCards([])
-    setSelectedCards([])
-    setScore(0)
-    setBoard(shuffle([...cards2,...cards2]))
+    let levelAux = ( level === cards.length-1 ) ? 0 : level+1;
+    setLevel(levelAux);
+    setMatchedCards([]);
+    setSelectedCards([]);
+    setScore(0);
+    setBoard(shuffle([...cards[levelAux],...cards[levelAux]]));
   }
+
+  const prevLevel = () => {
+    let levelAux = ( level === 0 ) ? 0 : level-1;
+    setLevel(levelAux);
+    setMatchedCards([]);
+    setSelectedCards([]);
+    setScore(0);
+    setBoard(shuffle([...cards[levelAux],...cards[levelAux]]));
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
       <Text style={styles.title}>{ didPlayerWin() ? 'Congratulations 🎉' : 'Memory' }</Text>
-      <Text style={styles.title}>Score: {score}</Text>
+      <Text style={styles.subtitle}>Level: { level+1 } Score: {score}</Text>
       <View style={styles.board}>
         {
           board.map((card, index) => {
@@ -87,7 +84,7 @@ export default function App() {
         }
       </View>
       { didPlayerWin() && <Button title='Reset' onPress={ resetGame }/> }
-      { didPlayerWin() && <Button title='Next Level' onPress={ nextLevel }/> }
+      { didPlayerWin() && (<View style={styles.containerBtn}><View style={styles.btn}><Button title='Previous Level' onPress={prevLevel} /></View><View style={styles.btn}><Button title='Next Level' onPress={nextLevel} /></View></View>) }
     </View>
   );
 }
@@ -103,12 +100,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    marginHorizontal: 60
+    // marginHorizontal: 60
   },
   title: {
     color: '#FFFFFF',
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: '900'
+  },
+  subtitle:{
+    fontSize: 20,
+    color: '#FFFFFF'
+  },
+  containerBtn: {
+    flexDirection: 'row'
+  },
+  btn: {
+    margin: 5
   }
 });
 

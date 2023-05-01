@@ -17,8 +17,8 @@ export default function Cards({onPress, isTurnedOver, children}) {
 
 const stylesCard = StyleSheet.create({
     cardUp: {
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         margin: 10,
         borderWidth: 10,
         borderColor: "#334155",
@@ -28,8 +28,8 @@ const stylesCard = StyleSheet.create({
         backgroundColor: "#1e293b"
     },
     cardDown: {
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         margin: 10,
         borderWidth: 10,
         borderColor: "#334155",
@@ -39,15 +39,13 @@ const stylesCard = StyleSheet.create({
         backgroundColor: "#1e293b"
     },
     text: {
-        fontSize: 25,
+        fontSize: 18,
         textAlign: 'center',
-        // fontSize: 46,
-        // color: "#334155",
         color: "#fffa",
 
     },
     textDown: {
-        fontSize: 46,
+        fontSize: 45,
         color: "#334155"
     }
 })
