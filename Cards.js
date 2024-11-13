@@ -8,7 +8,7 @@ export default function Cards({onPress, isTurnedOver, children}) {
             style={isTurnedOver ? stylesCard.cardUp : stylesCard.cardDown}>
             {
                 (isTurnedOver)
-                ? (<Text style={stylesCard.text}>{children}</Text>)
+                ? (<Text style={stylesCard.textCards}>{children}</Text>)
                 :(<Text style={stylesCard.textDown}>?</Text>)
             }
         </Pressable>
@@ -20,7 +20,7 @@ const stylesCard = StyleSheet.create({
         width: 80,
         height: 80,
         margin: 10,
-        borderWidth: 10,
+        borderWidth: 6,
         borderColor: "#334155",
         alignItems: 'center',
         justifyContent: 'center',
@@ -31,18 +31,17 @@ const stylesCard = StyleSheet.create({
         width: 80,
         height: 80,
         margin: 10,
-        borderWidth: 10,
+        borderWidth: 6,
         borderColor: "#334155",
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 25,
         backgroundColor: "#1e293b"
     },
-    text: {
-        fontSize: 18,
+    textCards: {
+        fontSize: 19,
         textAlign: 'center',
         color: "#fffa",
-
     },
     textDown: {
         fontSize: 45,
